@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Contact Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        .header {
+            text-align: center;
+            background-color: #333;
+            padding: 20px;
+            color: white;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .add-contact {
+            margin: 20px;
+            text-align: center;
+        }
+
+        .add-contact button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .contact-card {
+            display: flex;
+            justify-content: space-between;
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        .contact-details {
+            flex: 1;
+            padding: 10px;
+        }
+
+        .contact-actions {
+            text-align: right;
+            padding: 10px;
+        }
+
+        .contact-actions a {
+            margin-right: 10px;
+            color: #2196F3;
+            text-decoration: none;
+        }
+
+        .contact-actions button {
+            background-color: #f44336;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>My Contacts</h1>
+</div>
+
+<div class="add-contact">
+    <a href="{% url 'createcontact' %}">
+        <button>Add New Contact</button>
+    </a>
+</div>
+
+<div class="contact-list">
+    {% for contact in contacts %}
+    <div class="contact-card">
+        <div class="contact-icon">📒</div>
+        <div class="contact-details">
+            <h3>{{ contact.name }}</h3>
+            <p>Address: {{ contact.address }}</p>
+            <p>Profession: {{ contact.profession }}</p>
+            <p>Tel: {{ contact.telnumber }}</p>
+        </div>
+        <div class="contact-actions">
+            <a href="{% url 'edit' contact.pk %}">Edit Contact</a>
+            <form action="{% url 'delete_contact' contact.pk %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Delete Contact</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>
